@@ -2,7 +2,7 @@
 
 A lightweight browser-based console manager for [Cisco Modeling Labs 2](https://developer.cisco.com/modeling-labs/) (CML2). Connect to device consoles directly from your browser — no SSH client, no Cisco UI required.
 
-![CML2 Console Manager](https://raw.githubusercontent.com/placeholder/cml2-console/main/docs/screenshot.png)
+![CML2 Console Manager](https://raw.githubusercontent.com/tonybeyond/cml2-console/main/docs/screenshot.png)
 
 ## Features
 
@@ -21,7 +21,7 @@ A lightweight browser-based console manager for [Cisco Modeling Labs 2](https://
 ## Quick start (Docker Compose)
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/cml2-console.git
+git clone https://github.com/tonybeyond/cml2-console.git
 cd cml2-console
 cp .env.example .env
 # Edit .env and set CML_HOST to your CML2 IP or hostname
