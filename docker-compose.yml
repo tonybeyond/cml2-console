@@ -1,6 +1,7 @@
 services:
   cml2-console:
-    image: ghcr.io/tonybeyond/cml2-console:latest
+    build: .
+    image: cml2-console:latest
     container_name: cml2-console
     restart: unless-stopped
     ports:
