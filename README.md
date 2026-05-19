@@ -20,12 +20,24 @@ A lightweight browser-based console manager for [Cisco Modeling Labs 2](https://
 
 ## Quick start (Docker Compose)
 
+No build required — pulls the pre-built image from GitHub Container Registry.
+
 ```bash
 git clone https://github.com/tonybeyond/cml2-console.git
 cd cml2-console
 cp .env.example .env
 # Edit .env and set CML_HOST to your CML2 IP or hostname
 docker compose up -d
+```
+
+Or without cloning at all:
+
+```bash
+docker run -d --name cml2-console \
+  -e CML_HOST=192.168.1.100 \
+  -p 3001:3000 \
+  --restart unless-stopped \
+  ghcr.io/tonybeyond/cml2-console:latest
 ```
 
 Open **http://localhost:3001** and log in with your CML2 credentials.
