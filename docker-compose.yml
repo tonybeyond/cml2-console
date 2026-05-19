@@ -1,0 +1,11 @@
+services:
+  cml2-console:
+    build: .
+    image: cml2-console:latest
+    container_name: cml2-console
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3001}:3000"
+    environment:
+      - CML_HOST=${CML_HOST}
+      - PORT=3000
