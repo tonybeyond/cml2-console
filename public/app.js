@@ -255,10 +255,11 @@ function createConsoleTab(tabId, labId, nodeId, label) {
 
   const fitAddon = new FitAddon.FitAddon();
   term.loadAddon(fitAddon);
-  term.open(pane);
+  // Do NOT open terminal yet — pane is hidden, xterm can't measure dimensions.
+  // term.open() is called lazily in switchToTab once the pane is visible.
 
   // Tab data
-  const tabData = { labId, nodeId, label, term, fitAddon, pane, ws: null, status: 'connecting' };
+  const tabData = { labId, nodeId, label, term, fitAddon, pane, ws: null, status: 'connecting', opened: false };
   state.tabs.set(tabId, tabData);
 
   term.write(`\x1b[2;37mConnecting to \x1b[0;36m${label}\x1b[2;37m console…\x1b[0m\r\n`);
@@ -346,10 +347,16 @@ function switchToTab(tabId) {
   if (tab) {
     $('welcome-screen').style.display = 'none';
     tab.pane.style.display = 'flex';
-    requestAnimationFrame(() => {
+    // Double RAF: first frame makes pane visible, second frame lets the browser
+    // compute layout so xterm/FitAddon can measure the real dimensions.
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (!tab.opened) {
+        tab.term.open(tab.pane);
+        tab.opened = true;
+      }
       tab.fitAddon.fit();
       tab.term.focus();
-    });
+    }));
   }
   renderTabs();
 }
@@ -462,7 +469,7 @@ async function init() {
   window.addEventListener('resize', () => {
     if (state.activeTabId) {
       const tab = state.tabs.get(state.activeTabId);
-      if (tab?.fitAddon) requestAnimationFrame(() => tab.fitAddon.fit());
+      if (tab?.fitAddon) requestAnimationFrame(() => requestAnimationFrame(() => tab.fitAddon.fit()));
     }
   });
 

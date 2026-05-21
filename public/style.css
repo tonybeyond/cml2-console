@@ -474,8 +474,16 @@ input { font: inherit; }
 }
 .terminal-pane .xterm {
   flex: 1;
+  min-height: 0; /* required for flex children to shrink below content size */
 }
-.terminal-pane .xterm-viewport { border-radius: 4px; }
+.terminal-pane .xterm-viewport {
+  border-radius: 4px;
+}
+/* Ensure xterm's internal layers fill the available height */
+.terminal-pane .xterm-screen,
+.terminal-pane .xterm .xterm-rows {
+  height: 100%;
+}
 
 /* Welcome screen */
 .welcome-screen {
